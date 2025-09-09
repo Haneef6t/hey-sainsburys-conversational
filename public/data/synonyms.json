@@ -6,5 +6,9 @@
   "aubergine": "eggplant",
   "cheap": "value",
   "bargain": "value",
-  "value": "value"
+  "value": "value",
+  "biryani": "chicken rice carrots tomatoes",
+  "curry": "chicken tomatoes carrots",
+  "pasta dish": "pasta pasta sauce cheese",
+  "sunday roast": "chicken potatoes carrots gravy"
 }

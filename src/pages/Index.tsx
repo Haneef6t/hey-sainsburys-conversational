@@ -5,6 +5,7 @@ import SearchHeader from "@/components/SearchHeader";
 import FacetSidebar from "@/components/FacetSidebar";
 import ProductGrid from "@/components/ProductGrid";
 import AddonsSection from "@/components/AddonsSection";
+import Chatbot from "@/components/Chatbot";
 
 interface SearchFilters {
   categories: string[];
@@ -21,11 +22,11 @@ const Index = () => {
   });
   const [hasSearched, setHasSearched] = useState(false);
   const { toast } = useToast();
-  const { search, getFacets, loading } = useSearch();
+  const { search, getFacets, loading, allProducts } = useSearch();
 
   const searchResult = hasSearched || searchQuery.trim() ? 
     search(searchQuery, filters) : 
-    { products: [], explanations: {}, addons: [] };
+    { products: allProducts.slice(0, 8), explanations: {}, addons: [] };
 
   const facetData = searchResult.products.length > 0 ? getFacets(searchResult.products) : null;
 
@@ -125,8 +126,18 @@ const Index = () => {
             </h1>
             <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto">
               Search naturally for what you need. Try asking for "cheap loo roll", 
-              "gluten-free wraps for lunchboxes", or "ingredients for Sunday roast for 4"
+              "gluten-free wraps for lunchboxes", "biryani ingredients", or "ingredients for Sunday roast for 4"
             </p>
+            
+            {/* Show random products initially */}
+            <div className="mb-8">
+              <h2 className="text-xl font-semibold text-foreground mb-4">Featured Products</h2>
+              <ProductGrid
+                products={searchResult.products}
+                explanations={{}}
+                onAddToBasket={handleAddToBasket}
+              />
+            </div>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-4xl mx-auto">
               <div className="bg-gradient-card p-6 rounded-lg shadow-card border border-border/50">
                 <div className="text-2xl mb-2">💬</div>
@@ -184,6 +195,7 @@ const Index = () => {
           </div>
         )}
       </main>
+      <Chatbot />
     </div>
   );
 };
